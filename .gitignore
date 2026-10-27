@@ -1,0 +1,57 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies & Build Output
+node_modules
+dist
+dist-ssr
+*.local
+.env*
+!.env.example
+
+# Vercel & Editor metadata
+.vercel
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Temporary & Test Directories
+.agents
+temp_*
+temp_chrome
+videos_raw
+extracted
+
+# Root-Level Test Images, Verification Screenshots, Screen Recordings & Temp Scripts
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.pdf
+/*.mp4
+/*.webm
+/*.cjs
+/verify_*.js
+/verify_*.mjs
+/capture_*.js
+/compress_*.js
+/build_*.py
+/test_*.js
+/test_*.webp
+/generate_*.py
+/process_*.py
+/briefs_log.json
+skills-lock.json
+
+# Always track core application assets
+!public/**
+!assets/**
+!src/**
+!videos/**

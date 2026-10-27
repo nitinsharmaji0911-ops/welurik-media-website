@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" width="360" height="80">
+  <g>
+    <!-- Kayak Paddle & Water Crest in Tropical Teal/Cyan -->
+    <path d="M22 46 Q 30 22, 40 22 Q 50 22, 58 46 Q 40 40, 22 46 Z" fill="#0284C7" stroke="#38BDF8" stroke-width="2"/>
+    <line x1="24" y1="52" x2="56" y2="20" stroke="#0369A1" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="56" cy="20" r="3.5" fill="#0EA5E9"/>
+    <circle cx="24" cy="52" r="3.5" fill="#0EA5E9"/>
+    <!-- Brand Wordmark -->
+    <text x="76" y="42" font-family="'Montserrat', sans-serif" font-size="21" font-weight="800" letter-spacing="1.5" fill="#0369A1">LOCAL GOA KAYAKING</text>
+    <text x="78" y="56" font-family="'Inter', sans-serif" font-size="8" font-weight="700" letter-spacing="3" fill="#0284C7">MANGROVE EXPEDITIONS</text>
+  </g>
+</svg>

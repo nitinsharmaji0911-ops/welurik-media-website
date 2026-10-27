@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+  <g transform="translate(18, 12)">
+    <rect x="2" y="8" width="30" height="20" rx="6" fill="none" stroke="#111111" stroke-width="2.5" />
+    <circle cx="10" cy="18" r="2.5" fill="#111111" />
+    <circle cx="24" cy="15" r="2" fill="#111111" />
+    <circle cx="24" cy="21" r="2" fill="#111111" />
+  </g>
+  <text x="155" y="34" font-family="'Montserrat', -apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="3" fill="#111111" text-anchor="middle">HG WORLD</text>
+  <text x="155" y="49" font-family="'Inter', -apple-system, sans-serif" font-size="8.5" font-weight="700" letter-spacing="3" fill="#555555" text-anchor="middle">HAPPY GAMING WORLD</text>
+</svg>

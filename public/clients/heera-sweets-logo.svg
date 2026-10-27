@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+  <g transform="translate(14, 12)">
+    <polygon points="18,4 28,14 18,34 8,14" fill="none" stroke="#111111" stroke-width="2.5" />
+    <polygon points="18,10 24,15 18,28 12,15" fill="#111111" />
+  </g>
+  <text x="155" y="34" font-family="'Playfair Display', Georgia, serif" font-size="22" font-weight="700" letter-spacing="1.5" fill="#111111" text-anchor="middle">SHREE HEERA SWEETS</text>
+  <text x="155" y="49" font-family="'Inter', -apple-system, sans-serif" font-size="8.5" font-weight="600" letter-spacing="2.5" fill="#555555" text-anchor="middle">ICONIC MITHAI DESTINATION</text>
+</svg>

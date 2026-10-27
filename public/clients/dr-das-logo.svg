@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+  <g transform="translate(18, 12)">
+    <path d="M12 4 C6 4 2 10 2 18 C2 28 8 34 12 36 C14 30 16 26 18 20 C20 26 22 30 24 36 C28 34 34 28 34 18 C34 10 30 4 24 4 C20 4 19 8 18 10 C17 8 16 4 12 4 Z" fill="none" stroke="#111111" stroke-width="2.5" />
+    <circle cx="18" cy="18" r="3" fill="#111111" />
+  </g>
+  <text x="160" y="34" font-family="'Montserrat', -apple-system, sans-serif" font-size="22" font-weight="800" letter-spacing="2" fill="#111111" text-anchor="middle">DR. DAS DENTAL</text>
+  <text x="160" y="49" font-family="'Inter', -apple-system, sans-serif" font-size="8.5" font-weight="700" letter-spacing="3" fill="#555555" text-anchor="middle">SPECIALIZED HEALTHCARE</text>
+</svg>

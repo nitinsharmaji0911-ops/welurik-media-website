@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Native touch momentum physics on mobile; smooth programmatic scroll on desktop */
+  @media (min-width: 768px) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  html, body {
+    background-color: #FAF8F5;
+    color: #111111;
+    font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4CEB8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #111111;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hardware accelerated card transitions */
+.hb-card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.hb-card-hover:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+/* Vertical Marquee Animations (Matching Reference) */
+@keyframes marquee-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marquee-down {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-marquee-up-slow {
+  animation: marquee-up 24s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-down-slow {
+  animation: marquee-down 26s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-up-fast {
+  animation: marquee-up 20s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-down-fast {
+  animation: marquee-down 28s linear infinite;
+  will-change: transform;
+}
+
+.pause-hover:hover {
+  animation-play-state: paused;
+}
+
+/* Vertical Gradient Fade Mask */
+.mask-marquee-vertical {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+/* Horizontal Marquee for Client Logos */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 15s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 15s linear infinite;
+  will-change: transform;
+}
+
+.mask-marquee-horizontal {
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}

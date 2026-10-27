@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 80" width="350" height="80">
+  <g>
+    <!-- Iron Hex Plate & Barbell Mark in Red -->
+    <polygon points="40,16 58,26 58,46 40,56 22,46 22,26" fill="#BE123C" stroke="#E11D48" stroke-width="2.5"/>
+    <rect x="37" y="24" width="6" height="24" rx="2" fill="#FFFFFF"/>
+    <rect x="31" y="28" width="18" height="4" rx="1" fill="#FFFFFF"/>
+    <rect x="31" y="40" width="18" height="4" rx="1" fill="#FFFFFF"/>
+    <!-- Brand Wordmark -->
+    <text x="78" y="43" font-family="'Oswald', 'Impact', sans-serif" font-size="26" font-weight="900" letter-spacing="2.5" fill="#E11D48">IRONCREED</text>
+    <text x="80" y="57" font-family="'Inter', sans-serif" font-size="8" font-weight="800" letter-spacing="4.5" fill="#18181B">STRENGTH &amp; FITNESS</text>
+  </g>
+</svg>

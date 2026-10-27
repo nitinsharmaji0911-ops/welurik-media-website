@@ -1,0 +1,11 @@
+videos_raw
+node_modules
+dist
+.env
+temp_*
+*.log
+screenshot*.png
+fresh_*.png
+section_*.png
+final_*.png
+drawer_*.png
