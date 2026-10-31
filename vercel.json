@@ -4,6 +4,11 @@
   "framework": "vite",
   "redirects": [
     {
+      "source": "/sitemaps.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
       "source": "/our-work(.*)",
       "destination": "/#featured-work",
       "permanent": true
