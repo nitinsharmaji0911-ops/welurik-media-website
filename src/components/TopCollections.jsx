@@ -101,7 +101,6 @@ export default function TopCollections({ onSelectDiscipline }) {
               <ServiceCard
                 key={item.id}
                 item={item}
-                onPlayVideo={onPlayVideo}
                 onSelectDiscipline={onSelectDiscipline}
               />
             ))}
