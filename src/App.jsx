@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AnnouncementBar from './components/AnnouncementBar'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -93,49 +93,71 @@ export default function App() {
 
   const totalCartCount = cartItems.length
 
-  // Render Current Page (Homepage, Services, About, Contact, Legal, or 404)
-  const renderCurrentPage = () => {
-    switch (currentPath) {
-      case '/privacy':
-        return <PrivacyPolicyPage />
-      case '/terms':
-        return <TermsPage />
-      case '/about':
-      case '/founder':
-        return <AboutPage />
-      case '/contact':
-        return <ContactPage />
-      case '/case-studies':
-        return <CaseStudiesPage setActiveReel={setActiveReel} addToCart={addToCart} />
-      case '/web-development':
-        return <WebDevelopmentPage addToCart={addToCart} />
-      case '/digital-marketing':
-        return <DigitalMarketingPage addToCart={addToCart} />
-      case '/':
-      case '':
-        return (
-          <HomePage
-            addToCart={addToCart}
-            toggleWishlist={toggleWishlist}
-            wishlistIds={wishlistIds}
-            setQuickViewProduct={setQuickViewProduct}
-            setActiveReel={setActiveReel}
-          />
-        )
-      default:
-        if (currentPath.startsWith('/#') || currentPath.startsWith('#')) {
-          return (
-            <HomePage
-              addToCart={addToCart}
-              toggleWishlist={toggleWishlist}
-              wishlistIds={wishlistIds}
-              setQuickViewProduct={setQuickViewProduct}
-              setActiveReel={setActiveReel}
-            />
-          )
-        }
-        return <NotFoundPage />
+  // Single-Page Canonical Anchor Redirects
+  const REDIRECT_TARGETS = {
+    '/our-work': 'featured-work',
+    '/work': 'featured-work',
+    '/case-studies': 'featured-work',
+    '/portfolio': 'featured-work',
+    '/services': 'services',
+    '/digital-marketing': 'services',
+    '/performance-marketing': 'services',
+    '/web-development': 'deliverables',
+    '/about': 'featured-work',
+    '/about-us': 'featured-work',
+    '/founder': 'featured-work',
+    '/nitin': 'featured-work',
+    '/contact': 'contact',
+    '/contact-us': 'contact',
+  }
+
+  // Auto-scroll and rewrite URL history if user lands on legacy/subpage routes
+  useEffect(() => {
+    const cleanPath = (currentPath || '').replace(/\/$/, '')
+    if (REDIRECT_TARGETS[cleanPath]) {
+      const anchor = REDIRECT_TARGETS[cleanPath]
+      window.history.replaceState({}, '', `/#${anchor}`)
+      setTimeout(() => {
+        const el = document.getElementById(anchor)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }, 150)
+    } else if (cleanPath === '/privacy-policy') {
+      window.history.replaceState({}, '', '/privacy')
     }
+  }, [currentPath])
+
+  // Render Current Page (Single-Page Experience + Compliant Legal Pages)
+  const renderCurrentPage = () => {
+    const cleanPath = (currentPath || '').replace(/\/$/, '')
+
+    // If it's a redirect route or home/anchor route, render HomePage
+    if (
+      REDIRECT_TARGETS[cleanPath] ||
+      cleanPath === '/' ||
+      cleanPath === '' ||
+      cleanPath.startsWith('/#') ||
+      cleanPath.startsWith('#')
+    ) {
+      return (
+        <HomePage
+          addToCart={addToCart}
+          toggleWishlist={toggleWishlist}
+          wishlistIds={wishlistIds}
+          setQuickViewProduct={setQuickViewProduct}
+          setActiveReel={setActiveReel}
+        />
+      )
+    }
+
+    if (cleanPath === '/privacy' || cleanPath === '/privacy-policy') {
+      return <PrivacyPolicyPage />
+    }
+
+    if (cleanPath === '/terms') {
+      return <TermsPage />
+    }
+
+    return <NotFoundPage />
   }
 
   return (

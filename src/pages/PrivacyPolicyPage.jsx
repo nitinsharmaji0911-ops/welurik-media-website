@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ShieldCheck, Lock, Eye, FileText, ArrowLeft } from 'lucide-react'
 import { useNavigation } from '../context/NavigationContext'
 
 export default function PrivacyPolicyPage() {
   const { navigate } = useNavigation()
+
+  useEffect(() => {
+    let meta = document.querySelector('meta[name="robots"]')
+    const original = meta ? meta.getAttribute('content') : 'index, follow'
+    if (meta) {
+      meta.setAttribute('content', 'noindex, follow')
+    }
+    return () => {
+      if (meta) meta.setAttribute('content', original)
+    }
+  }, [])
 
   return (
     <div className="bg-[#FAF8F5] min-h-screen text-[#111111] pb-24">

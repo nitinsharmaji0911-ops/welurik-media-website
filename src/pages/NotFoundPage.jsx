@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ArrowLeft, Home, Send, PhoneCall } from 'lucide-react'
 import { useNavigation } from '../context/NavigationContext'
 import Logo from '../components/Logo'
 
 export default function NotFoundPage() {
   const { navigate } = useNavigation()
+
+  useEffect(() => {
+    let meta = document.querySelector('meta[name="robots"]')
+    const original = meta ? meta.getAttribute('content') : 'index, follow'
+    if (meta) {
+      meta.setAttribute('content', 'noindex, nofollow')
+    }
+    return () => {
+      if (meta) meta.setAttribute('content', original)
+    }
+  }, [])
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-[#FAF8F5] text-[#111111] px-4 sm:px-8 py-20 select-none">

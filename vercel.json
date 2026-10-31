@@ -2,6 +2,78 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "redirects": [
+    {
+      "source": "/our-work(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/work(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/case-studies(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/services(.*)",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/digital-marketing(.*)",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/performance-marketing(.*)",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/web-development(.*)",
+      "destination": "/#deliverables",
+      "permanent": true
+    },
+    {
+      "source": "/about(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/founder(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/nitin(.*)",
+      "destination": "/#featured-work",
+      "permanent": true
+    },
+    {
+      "source": "/contact(.*)",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us(.*)",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy(.*)",
+      "destination": "/privacy",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
