@@ -42,7 +42,7 @@ export default function Footer() {
       links: [
         { label: 'Web Development & Platforms', href: '#deliverables' },
         { label: 'Shopify CRO & Storefronts', href: '#deliverables' },
-        { label: 'Meta & Google Ads Scale', href: '#featured-work' },
+        { label: 'Meta & Google Ads Scale', href: '#services' },
         { label: 'Viral 9:16 Commercials & UGC', href: '#top-collections' },
       ]
     },
