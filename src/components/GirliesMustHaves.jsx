@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { ArrowUpRight, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowUpRight, ArrowRight, Sparkles, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 
 const PORTFOLIO_SITES = [
   {
@@ -98,7 +98,9 @@ const PORTFOLIO_SITES = [
 export default function GirliesMustHaves() {
   const [filter, setFilter] = useState('all')
   const [activeIndex, setActiveIndex] = useState(0)
-  const carouselRef = useRef(null)
+  const [isPaused, setIsPaused] = useState(false)
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchDelta, setTouchDelta] = useState(0)
 
   const filterOptions = [
     { id: 'all', label: 'ALL PLATFORMS (7)' },
@@ -115,51 +117,89 @@ export default function GirliesMustHaves() {
     return true
   })
 
-  // Reset scroll when filter changes
+  const next = () => {
+    setActiveIndex((prev) => (prev + 1) % filteredSites.length)
+  }
+
+  const prev = () => {
+    setActiveIndex((prev) => (prev - 1 + filteredSites.length) % filteredSites.length)
+  }
+
+  // Reset index when filter changes
   useEffect(() => {
     setActiveIndex(0)
-    if (carouselRef.current) {
-      carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' })
-    }
   }, [filter])
 
-  // Track scroll position for active indicator
-  const handleScroll = () => {
-    if (!carouselRef.current) return
-    const container = carouselRef.current
-    const scrollLeft = container.scrollLeft
-    const cards = container.getElementsByClassName('portfolio-card')
-    if (cards.length === 0) return
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') prev()
+      if (e.key === 'ArrowRight') next()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [filteredSites.length])
 
-    const cardWidth = cards[0].offsetWidth + 24 // card width + gap
-    const index = Math.round(scrollLeft / cardWidth)
-    setActiveIndex(Math.min(Math.max(0, index), filteredSites.length - 1))
+  // Smooth Autoplay (5.5s interval, automatically paused on hover or user interaction)
+  useEffect(() => {
+    if (isPaused || filteredSites.length <= 1) return
+    const timer = setInterval(() => {
+      next()
+    }, 5500)
+    return () => clearInterval(timer)
+  }, [activeIndex, isPaused, filteredSites.length])
+
+  // Mobile Touch Handlers
+  const handleTouchStart = (e) => {
+    setIsPaused(true)
+    setTouchStart(e.targetTouches[0].clientX)
+    setTouchDelta(0)
   }
 
-  const scrollPrev = () => {
-    if (!carouselRef.current) return
-    const container = carouselRef.current
-    const cards = container.getElementsByClassName('portfolio-card')
-    const cardWidth = cards.length > 0 ? cards[0].offsetWidth + 24 : 500
-    container.scrollBy({ left: -cardWidth, behavior: 'smooth' })
+  const handleTouchMove = (e) => {
+    if (touchStart !== null) {
+      setTouchDelta(e.targetTouches[0].clientX - touchStart)
+    }
   }
 
-  const scrollNext = () => {
-    if (!carouselRef.current) return
-    const container = carouselRef.current
-    const cards = container.getElementsByClassName('portfolio-card')
-    const cardWidth = cards.length > 0 ? cards[0].offsetWidth + 24 : 500
-    container.scrollBy({ left: cardWidth, behavior: 'smooth' })
+  const handleTouchEnd = () => {
+    if (touchDelta > 45) {
+      prev()
+    } else if (touchDelta < -45) {
+      next()
+    }
+    setTouchStart(null)
+    setTouchDelta(0)
+    setTimeout(() => setIsPaused(false), 2000)
   }
 
-  const scrollToIndex = (index) => {
-    if (!carouselRef.current) return
-    const container = carouselRef.current
-    const cards = container.getElementsByClassName('portfolio-card')
-    if (cards.length > index) {
-      const cardWidth = cards[0].offsetWidth + 24
-      container.scrollTo({ left: index * cardWidth, behavior: 'smooth' })
-      setActiveIndex(index)
+  // Compute slide position for luxury 3-card peek stage
+  const getSlideStyle = (index) => {
+    const total = filteredSites.length
+    let offset = (index - activeIndex + total) % total
+    if (offset > total / 2) offset -= total
+
+    if (Math.abs(offset) > 1) {
+      return {
+        display: 'none',
+        opacity: 0,
+        pointerEvents: 'none'
+      }
+    }
+
+    const isCenter = offset === 0
+    // Responsive percentage translation
+    const translateX = offset * 92
+    const scale = isCenter ? 1 : 0.88
+    const opacity = isCenter ? 1 : 0.4
+    const zIndex = isCenter ? 30 : 10
+
+    return {
+      transform: `translateX(calc(-50% + ${translateX}%)) scale(${scale})`,
+      opacity,
+      zIndex,
+      transition: 'transform 550ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms ease, box-shadow 400ms ease',
+      cursor: isCenter ? 'default' : 'pointer'
     }
   }
 
@@ -177,123 +217,193 @@ export default function GirliesMustHaves() {
           <h2 className="font-bold tracking-[0.25em] text-base sm:text-xl md:text-2xl text-black uppercase text-center mb-3">
             WEB DEVELOPMENT PORTFOLIO
           </h2>
-          
 
-        </div>
+          <p className="text-xs sm:text-sm text-zinc-500 max-w-xl text-center leading-relaxed mb-6">
+            Bespoke web applications, high-converting Shopify storefronts, and conversion-engineered digital platforms.
+          </p>
 
-        {/* Carousel Container */}
-        <div className="relative group/carousel">
-          
-          {/* Side Chevron - Left (Desktop) */}
-          <button
-            onClick={scrollPrev}
-            aria-label="Previous websites"
-            className="hidden sm:flex absolute -left-3 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 border border-zinc-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.08)] items-center justify-center text-zinc-700 hover:text-black hover:bg-white hover:scale-105 active:scale-95 transition-all"
-          >
-            <ChevronLeft size={22} />
-          </button>
-
-          {/* Side Chevron - Right (Desktop) */}
-          <button
-            onClick={scrollNext}
-            aria-label="Next websites"
-            className="hidden sm:flex absolute -right-3 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 border border-zinc-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.08)] items-center justify-center text-zinc-700 hover:text-black hover:bg-white hover:scale-105 active:scale-95 transition-all"
-          >
-            <ChevronRight size={22} />
-          </button>
-
-          {/* Horizontal Carousel Track: Snap, Smooth, Hardware Accelerated */}
-          <div
-            ref={carouselRef}
-            onScroll={handleScroll}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-1 sm:px-2 py-4"
-          >
-            {filteredSites.map((site) => (
-              <div
-                key={site.id}
-                onClick={() => window.open(site.url, '_blank')}
-                className="portfolio-card w-[86vw] sm:w-[540px] md:w-[620px] lg:w-[680px] flex-shrink-0 snap-center group bg-white rounded-2xl border border-zinc-200/90 hover:border-black shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.09)] transition-all duration-300 flex flex-col cursor-pointer overflow-hidden transform hover:-translate-y-1"
+          {/* Minimalist Filter Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {filterOptions.map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => setFilter(opt.id)}
+                className={`px-3.5 py-1.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase transition-all duration-300 ${
+                  filter === opt.id
+                    ? 'bg-black text-white shadow-sm'
+                    : 'bg-white text-zinc-600 border border-zinc-200 hover:border-black hover:text-black'
+                }`}
               >
-                {/* Minimalist Top Browser Chrome */}
-                <div className="h-10 bg-[#FBFBFA] px-4 flex items-center justify-between border-b border-zinc-200/70">
-                  {/* Subtle Monochrome Window Controls */}
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 group-hover:bg-zinc-400 transition-colors inline-block" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-200 inline-block" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-200 inline-block" />
-                  </div>
-
-                  {/* Clean URL Pill */}
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-zinc-200/80 text-[11px] font-mono text-zinc-600 shadow-xs max-w-[210px] sm:max-w-xs truncate">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
-                    <span className="text-zinc-400 font-light hidden sm:inline">https://</span>
-                    <span className="text-zinc-800 font-medium truncate">{site.domain}</span>
-                  </div>
-
-                  {/* Live Link Badge */}
-                  <div className="flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider text-zinc-400 group-hover:text-black transition-colors">
-                    <span className="hidden sm:inline">VISIT</span>
-                    <ArrowUpRight size={14} className="text-zinc-400 group-hover:text-black transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
-                </div>
-
-                {/* Website Desktop Preview Viewport */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100">
-                  <img
-                    src={site.coverImg}
-                    alt={site.title}
-                    loading="eager"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                  />
-
-                  {/* Elegant Hover Action Overlay */}
-                  <div className="absolute inset-0 bg-black/25 backdrop-blur-[1.5px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                    <span className="px-5 py-2.5 rounded-full bg-black text-white text-xs font-bold tracking-widest uppercase flex items-center gap-2 shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all">
-                      <span>EXPLORE LIVE PLATFORM</span>
-                      <ArrowUpRight size={14} />
-                    </span>
-                  </div>
-                </div>
-
-                {/* Card Meta & Impact Statistics */}
-                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 bg-white">
-                  <div>
-                    <div className="mb-1.5">
-                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-500">
-                        {site.category}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-xl font-bold text-black group-hover:text-zinc-800 transition-colors">
-                      {site.title}
-                    </h3>
-                  </div>
-
-                  {/* Key Metric Divider */}
-                  <div className="pt-4 mt-4 border-t border-zinc-100 flex items-center justify-between">
-                    {/* Key Metric Callout */}
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xl sm:text-2xl font-black text-black tracking-tight">
-                        {site.metricValue}
-                      </span>
-                      <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider font-medium">
-                        {site.metricLabel}
-                      </span>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+                {opt.label}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Carousel Pagination Dots & Mobile Navigation Controls */}
-        <div className="flex items-center justify-center gap-4 mt-8">
+        {/* Carousel Stage (Exact Aesthetic Match to EverydayEdit & FullCoverageEdit) */}
+        <div
+          className="relative w-full max-w-[1100px] mx-auto h-[460px] sm:h-[540px] md:h-[600px] lg:h-[640px] flex items-center justify-center my-2"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Side Desktop Chevron - Left */}
           <button
-            onClick={scrollPrev}
+            onClick={prev}
+            aria-label="Previous platform"
+            className="hidden sm:flex absolute left-2 lg:-left-4 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-white/95 border border-zinc-200 shadow-[0_6px_20px_rgba(0,0,0,0.08)] items-center justify-center text-zinc-700 hover:text-black hover:scale-110 active:scale-95 transition-all"
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          {/* Side Desktop Chevron - Right */}
+          <button
+            onClick={next}
+            aria-label="Next platform"
+            className="hidden sm:flex absolute right-2 lg:-right-4 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-white/95 border border-zinc-200 shadow-[0_6px_20px_rgba(0,0,0,0.08)] items-center justify-center text-zinc-700 hover:text-black hover:scale-110 active:scale-95 transition-all"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          {/* Animated 3D Peek Carousel Track */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            {filteredSites.map((site, idx) => {
+              const total = filteredSites.length
+              let offset = (idx - activeIndex + total) % total
+              if (offset > total / 2) offset -= total
+              const isCenter = offset === 0
+
+              return (
+                <div
+                  key={site.id}
+                  style={getSlideStyle(idx)}
+                  onClick={() => {
+                    if (offset === -1) prev()
+                    else if (offset === 1) next()
+                  }}
+                  className={`absolute left-1/2 top-1/2 -translate-y-1/2 w-[92vw] sm:w-[560px] md:w-[680px] lg:w-[760px] bg-white rounded-2xl border ${
+                    isCenter ? 'border-zinc-300 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.18)]' : 'border-zinc-200/90 shadow-[0_10px_30px_rgba(0,0,0,0.06)]'
+                  } flex flex-col overflow-hidden will-change-transform`}
+                >
+                  {/* Top Luxury Browser Chrome */}
+                  <div className="h-10 bg-[#FBFBFA] px-4 flex items-center justify-between border-b border-zinc-200/80">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 inline-block" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-zinc-200 inline-block" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-zinc-200 inline-block" />
+                    </div>
+
+                    {/* Live Domain Pill */}
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-zinc-200/80 text-[11px] font-mono text-zinc-700 shadow-xs max-w-[210px] sm:max-w-xs truncate">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
+                      <span className="text-zinc-400 font-light hidden sm:inline">https://</span>
+                      <span className="text-zinc-900 font-semibold truncate">{site.domain}</span>
+                    </div>
+
+                    {/* Live Visit Action */}
+                    <a
+                      href={site.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        if (!isCenter) {
+                          e.preventDefault()
+                          if (offset === -1) prev()
+                          else if (offset === 1) next()
+                        }
+                      }}
+                      className="flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider text-zinc-500 hover:text-black transition-colors"
+                    >
+                      <span className="hidden sm:inline">VISIT</span>
+                      <ArrowUpRight size={14} />
+                    </a>
+                  </div>
+
+                  {/* Widescreen Preview Viewport */}
+                  <div 
+                    onClick={() => {
+                      if (isCenter) window.open(site.url, '_blank')
+                    }}
+                    className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100 group cursor-pointer"
+                  >
+                    <img
+                      src={site.coverImg}
+                      alt={site.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+
+                    {/* Hover Overlay with Action Pill */}
+                    {isCenter && (
+                      <div className="absolute inset-0 bg-black/25 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                        <span className="px-6 py-2.5 rounded-full bg-black text-white text-xs font-bold tracking-widest uppercase flex items-center gap-2 shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all">
+                          <span>EXPLORE LIVE PLATFORM</span>
+                          <ArrowUpRight size={14} />
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Meta & Impact Metrics */}
+                  <div className="p-5 sm:p-6 bg-white flex flex-col justify-between flex-1">
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded">
+                          {site.badge}
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                          {site.techStack.map((tech, tIdx) => (
+                            <span key={tIdx} className="hidden md:inline-block text-[10px] font-mono text-zinc-500 border border-zinc-200 px-1.5 py-0.5 rounded">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <h3 className="text-base sm:text-xl font-bold text-black tracking-tight mb-1">
+                        {site.title}
+                      </h3>
+
+                      <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">
+                        {site.description}
+                      </p>
+                    </div>
+
+                    {/* Key Metric Divider & Direct Link */}
+                    <div className="pt-3 sm:pt-4 mt-3 sm:mt-4 border-t border-zinc-100 flex items-center justify-between">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-lg sm:text-2xl font-black text-black tracking-tight">
+                          {site.metricValue}
+                        </span>
+                        <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 uppercase tracking-wider font-medium">
+                          {site.metricLabel}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => window.open(site.url, '_blank')}
+                        className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase text-black hover:text-zinc-600 transition-colors"
+                      >
+                        <span>LAUNCH</span>
+                        <ArrowUpRight size={13} />
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Carousel Pagination & Indicator Controls */}
+        <div className="flex items-center justify-center gap-4 mt-6 sm:mt-8">
+          <button
+            onClick={prev}
             className="sm:hidden p-2 rounded-full bg-white border border-zinc-200 text-zinc-600 active:scale-95 shadow-xs"
-            aria-label="Previous website"
+            aria-label="Previous platform"
           >
             <ChevronLeft size={16} />
           </button>
@@ -302,8 +412,8 @@ export default function GirliesMustHaves() {
             {filteredSites.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => scrollToIndex(idx)}
-                aria-label={`Go to website ${idx + 1}`}
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`Go to platform ${idx + 1}`}
                 className={`transition-all duration-300 rounded-full ${
                   activeIndex === idx
                     ? 'w-7 h-2 bg-black'
@@ -313,21 +423,21 @@ export default function GirliesMustHaves() {
             ))}
           </div>
 
-          <span className="text-[11px] font-mono text-zinc-500 font-medium ml-1">
+          <span className="text-[11px] font-mono text-zinc-500 font-bold ml-1">
             0{activeIndex + 1} / 0{filteredSites.length}
           </span>
 
           <button
-            onClick={scrollNext}
+            onClick={next}
             className="sm:hidden p-2 rounded-full bg-white border border-zinc-200 text-zinc-600 active:scale-95 shadow-xs"
-            aria-label="Next website"
+            aria-label="Next platform"
           >
             <ChevronRight size={16} />
           </button>
         </div>
 
-        {/* Bottom CTA Button */}
-        <div className="text-center mt-10 sm:mt-14">
+        {/* Direct CTA */}
+        <div className="text-center mt-8 sm:mt-12">
           <a
             href="https://wa.me/918421706305?text=Hi%20Welurik%20Team!%20I%20reviewed%20your%20web%20platforms%20and%20want%20to%20engineer%20a%20custom%20high-converting%20website."
             target="_blank"
