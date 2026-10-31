@@ -2,12 +2,12 @@ import React from 'react'
 import { WELURIK_DATA } from '../data/welurikMediaData'
 
 export default function AnnouncementBar() {
-  const services = WELURIK_DATA.servicesEyebrow || [
-    { title: "VIDEO EDITING", detail: "MOTION & VFX CUTS", href: "#services" },
-    { title: "CONTENT CREATION", detail: "VIRAL 9:16 REELS & UGC", href: "#services" },
-    { title: "PAID ADS", detail: "META & GOOGLE SCALE", href: "#services" },
-    { title: "WEB DEVELOPMENT", detail: "CUSTOM & SHOPIFY CRO", href: "#services" },
-    { title: "GRAPHIC DESIGNING", detail: "BRAND IDENTITY & CREATIVES", href: "#services" }
+  const services = [
+    { title: "VIDEO EDITING", detail: "MOTION & VFX CUTS", href: "#top-collections" },
+    { title: "CONTENT CREATION", detail: "VIRAL 9:16 REELS & UGC", href: "#top-collections" },
+    { title: "PAID ADS", detail: "META & GOOGLE SCALE", href: "#featured-work" },
+    { title: "WEB DEVELOPMENT", detail: "CUSTOM & SHOPIFY CRO", href: "#deliverables" },
+    { title: "GRAPHIC DESIGNING", detail: "BRAND IDENTITY & CREATIVES", href: "#featured-work" }
   ]
 
   // Duplicate for seamless 50% translation loop

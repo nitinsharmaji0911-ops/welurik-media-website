@@ -8,7 +8,6 @@ export default function Header() {
   const { navigate, currentPath } = useNavigation()
 
   const navLinks = [
-    { name: 'OUR SERVICES', href: '#services' },
     { name: 'OUR CLIENTS', href: '#featured-work' },
     { name: 'SHOWREELS', href: '#top-collections' },
     { name: 'WEB PLATFORMS', href: '#deliverables' },
@@ -49,12 +48,6 @@ export default function Header() {
             {/* Desktop Quick Nav */}
             <nav className="hidden lg:flex items-center gap-6 text-[12px] uppercase tracking-widest font-medium text-zinc-300">
               <button 
-                onClick={() => handleNavClick('#services')}
-                className="hover:text-white transition-colors"
-              >
-                Services
-              </button>
-              <button 
                 onClick={() => handleNavClick('#featured-work')}
                 className="hover:text-white transition-colors"
               >
@@ -71,6 +64,12 @@ export default function Header() {
                 className="hover:text-white transition-colors"
               >
                 Web Platforms
+              </button>
+              <button 
+                onClick={() => handleNavClick('#industries')}
+                className="hover:text-white transition-colors"
+              >
+                Reviews
               </button>
               <button 
                 onClick={() => handleNavClick('#contact')}

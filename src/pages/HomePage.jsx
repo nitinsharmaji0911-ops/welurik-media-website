@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import HeroSlider from '../components/HeroSlider'
-import TopCollections from '../components/TopCollections'
 import PromoBanner from '../components/PromoBanner'
 import EverydayEdit from '../components/EverydayEdit'
 import FullCoverageEdit from '../components/FullCoverageEdit'
@@ -53,21 +52,7 @@ _Sent from Welurik Media Website_`
         onExplore={() => scrollTo('featured-work')}
       />
 
-      {/* 2. Core Disciplines / Services */}
-      <TopCollections
-        onSelectDiscipline={(colId) => {
-          if (colId === 'web-development') {
-            scrollTo('deliverables')
-          } else if (colId === 'paid-ads') {
-            scrollTo('turnkey-systems')
-          } else {
-            scrollTo('featured-work')
-          }
-        }}
-        onPlayVideo={setActiveReel}
-      />
-
-      {/* 3. Editorial Promo Banner (Q4 Growth Sprints) */}
+      {/* 2. Editorial Promo Banner (Q4 Growth Sprints) */}
       <PromoBanner
         onCtaClick={(e) => {
           e.preventDefault()
