@@ -1,20 +1,10 @@
 import React, { useRef } from 'react'
-import { Play, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { WELURIK_DATA } from '../data/welurikMediaData'
 
-function ServiceCard({ item, onPlayVideo, onSelectDiscipline }) {
+function ServiceCard({ item, onSelectDiscipline }) {
   const handleClick = () => {
-    if (item.type === 'video' && item.video && onPlayVideo) {
-      onPlayVideo({
-        id: item.id,
-        title: item.title,
-        views: item.metric || item.views,
-        videoUrl: item.video,
-        poster: item.img,
-        thumb: item.img,
-        price: item.category || 'High-Impact Creative'
-      })
-    } else if (item.targetId) {
+    if (item.targetId) {
       const el = document.getElementById(item.targetId)
       if (el) el.scrollIntoView({ behavior: 'smooth' })
     } else if (onSelectDiscipline) {
@@ -62,23 +52,12 @@ function ServiceCard({ item, onPlayVideo, onSelectDiscipline }) {
           </div>
         )}
 
-        {/* Subtle Play or Link Badge on Desktop Hover */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/95 text-black flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-            {item.type === 'video' ? (
-              <Play size={16} className="fill-black ml-0.5" />
-            ) : (
-              <ExternalLink size={16} className="text-black" />
-            )}
-          </div>
-        </div>
-
       </div>
     </div>
   )
 }
 
-export default function TopCollections({ onSelectDiscipline, onPlayVideo }) {
+export default function TopCollections({ onSelectDiscipline }) {
   const scrollContainerRef = useRef(null)
   const services = WELURIK_DATA.services || WELURIK_DATA.topDisciplines
 

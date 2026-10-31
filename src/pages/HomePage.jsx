@@ -64,7 +64,6 @@ _Sent from Welurik Media Website_`
             scrollTo('featured-work')
           }
         }}
-        onPlayVideo={setActiveReel}
       />
 
       {/* 3. Editorial Promo Banner (Q4 Growth Sprints) */}

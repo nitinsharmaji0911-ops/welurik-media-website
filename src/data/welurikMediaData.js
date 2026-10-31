@@ -21,35 +21,27 @@ export const WELURIK_DATA = {
       title: "VIDEO EDITING",
       category: "Motion & VFX Cuts",
       img: "/images/services/video_editing.png",
-      video: "/videos/Before-After.mp4",
-      metric: "Motion VFX",
-      type: "video"
+      targetId: "top-collections"
     },
     {
       id: "content-creation",
       title: "CONTENT CREATION",
       category: "Viral Short-Form & UGC",
       img: "/images/services/content_creation.png",
-      video: "/videos/POHAWALA.mp4",
-      metric: "1.4M+ Views",
-      type: "video"
+      targetId: "top-collections"
     },
     {
       id: "paid-ads",
       title: "PAID ADS",
       category: "Meta & Google Scale",
       img: "/images/services/paid_ads.jpg",
-      video: "/videos/celibar nova 1.mp4",
-      metric: "4.8x Meta ROAS",
-      type: "video"
+      targetId: "featured-work"
     },
     {
       id: "web-development",
       title: "WEB DEVELOPMENT",
       category: "Custom Web & CRO",
       img: "/images/services/web_development.jpg",
-      metric: "7 Live Platforms",
-      type: "link",
       targetId: "deliverables"
     },
     {
@@ -57,9 +49,7 @@ export const WELURIK_DATA = {
       title: "GRAPHIC DESIGNING",
       category: "Brand Identity & Creatives",
       img: "/images/services/graphic_designing.jpg",
-      metric: "Visual Systems",
-      type: "link",
-      targetId: "industries"
+      targetId: "featured-work"
     }
   ],
 
