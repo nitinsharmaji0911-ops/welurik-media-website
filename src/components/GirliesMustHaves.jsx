@@ -3,6 +3,19 @@ import { ArrowUpRight, ArrowRight, Sparkles, ChevronLeft, ChevronRight, External
 
 const PORTFOLIO_SITES = [
   {
+    id: "voe-properties",
+    title: "Vision of Excellence Dubai Luxury Realty",
+    category: "Ultra-Luxury Real Estate & Advisory",
+    url: "https://voeproperties.com/",
+    domain: "voeproperties.com",
+    coverImg: "/images/websites/voeproperties_widescreen.jpg",
+    metricValue: "AED 165M+",
+    metricLabel: "Trophy Portfolio Placements",
+    techStack: ["Next.js / Canvas", "Yield Simulator", "Private Placement"],
+    badge: "LUXURY REAL ESTATE",
+    description: "Dubai luxury advisory portal engineered with scroll-driven cinematic visuals, interactive net yield simulator, and discreet off-market placement desk."
+  },
+  {
     id: "sm-engineering",
     title: "SM Solar EPC & Industrial CleanTech",
     category: "Commercial B2B & Solar EPC",
@@ -102,17 +115,21 @@ export default function GirliesMustHaves() {
   const [touchStart, setTouchStart] = useState(null)
   const [touchDelta, setTouchDelta] = useState(0)
 
+  const b2bCount = PORTFOLIO_SITES.filter(s => s.badge.includes('B2B') || s.badge.includes('HEALTHCARE')).length
+  const d2cCount = PORTFOLIO_SITES.filter(s => s.badge.includes('D2C') || s.badge.includes('FINE ART') || s.badge.includes('LUXURY')).length
+  const saasCount = PORTFOLIO_SITES.filter(s => s.badge.includes('SAAS') || s.badge.includes('EDTECH') || s.badge.includes('ACADEMIC')).length
+
   const filterOptions = [
-    { id: 'all', label: 'ALL PLATFORMS (7)' },
-    { id: 'b2b', label: 'COMMERCIAL B2B (2)' },
-    { id: 'd2c', label: 'LUXURY & D2C (2)' },
-    { id: 'saas', label: 'SAAS & EDTECH (3)' }
+    { id: 'all', label: `ALL PLATFORMS (${PORTFOLIO_SITES.length})` },
+    { id: 'b2b', label: `COMMERCIAL B2B (${b2bCount})` },
+    { id: 'd2c', label: `LUXURY & D2C (${d2cCount})` },
+    { id: 'saas', label: `SAAS & EDTECH (${saasCount})` }
   ]
 
   const filteredSites = PORTFOLIO_SITES.filter(site => {
     if (filter === 'all') return true
     if (filter === 'b2b') return site.badge.includes('B2B') || site.badge.includes('HEALTHCARE')
-    if (filter === 'd2c') return site.badge.includes('D2C') || site.badge.includes('FINE ART')
+    if (filter === 'd2c') return site.badge.includes('D2C') || site.badge.includes('FINE ART') || site.badge.includes('LUXURY')
     if (filter === 'saas') return site.badge.includes('SAAS') || site.badge.includes('EDTECH') || site.badge.includes('ACADEMIC')
     return true
   })

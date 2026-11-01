@@ -144,6 +144,24 @@ export const PORTFOLIO_ITEMS = [
     problem: "Heavy WordPress pages loading in 5+ seconds causing 40% bounce rates on paid traffic.",
     solution: "Clean static HTML/React architecture, asset compression, and mobile-first tap targets.",
     results: ["Sub-1.2s Total Page Load", "Reduced Bounce Rate to Under 18%", "Direct Lift in Ad ROAS"]
+  },
+  {
+    id: "proj-voe",
+    category: "cro",
+    categoryName: "Ultra-Luxury Real Estate Web",
+    badge: "Dubai Trophy Assets ⚡",
+    title: "Vision of Excellence Dubai Luxury Advisory",
+    subtitle: "Canvas Cinema UI & Sovereign Yield Simulator",
+    metricNum: "AED 165M+",
+    metricLabel: "Trophy Portfolios",
+    metricSecond: "Discreet HNW Desk",
+    shippingTag: "Custom Canvas Web ⚡",
+    turnaround: "14 Days Deployment",
+    image: "/images/websites/voeproperties_widescreen.jpg",
+    description: "Architected modern luxury advisory portal for Dubai's premier real estate consultancy. Features scroll-driven canvas cinematography, interactive tax-free net yield simulator, and confidential off-market placement enquiry routing.",
+    problem: "Ultra-wealthy international buyers bounce from slow, generic listing sites lacking high-end prestige and privacy.",
+    solution: "Sub-second Next.js architecture with scroll-driven cinema frames, instant currency & yield calculators, and direct WhatsApp executive desk.",
+    results: ["Sub-0.8s Global Load Time", "AED 165M+ Trophy Placements Featured", "Zero-Friction Private Enquiries"]
   }
 ]
 

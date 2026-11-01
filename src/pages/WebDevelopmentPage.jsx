@@ -28,6 +28,20 @@ export default function WebDevelopmentPage({ addToCart }) {
 
   const platforms = [
     {
+      id: "voe-properties",
+      title: "Vision of Excellence Dubai Luxury Realty",
+      category: "Ultra-Luxury Real Estate & Advisory",
+      url: "https://voeproperties.com/",
+      domain: "voeproperties.com",
+      coverImg: "/images/websites/voeproperties_widescreen.jpg",
+      metricValue: "AED 165M+",
+      metricLabel: "Trophy Portfolio Placements",
+      techStack: ["Next.js / Canvas", "Yield Simulator", "Private Placement"],
+      badge: "LUXURY REAL ESTATE",
+      filterGroup: "d2c",
+      description: "Dubai luxury advisory portal engineered with scroll-driven cinematic visuals, interactive net yield simulator, and discreet off-market placement desk."
+    },
+    {
       id: "sm-engineering",
       title: "SM Solar EPC & Industrial CleanTech",
       category: "Commercial B2B & Solar EPC",
@@ -183,6 +197,17 @@ export default function WebDevelopmentPage({ addToCart }) {
     return p.filterGroup === activeFilter
   })
 
+  const b2bCount = platforms.filter(p => p.filterGroup === 'b2b').length
+  const d2cCount = platforms.filter(p => p.filterGroup === 'd2c').length
+  const saasCount = platforms.filter(p => p.filterGroup === 'saas').length
+
+  const platformTabs = [
+    { id: 'all', label: `ALL PLATFORMS (${platforms.length})` },
+    { id: 'b2b', label: `COMMERCIAL B2B (${b2bCount})` },
+    { id: 'd2c', label: `LUXURY & D2C (${d2cCount})` },
+    { id: 'saas', label: `SAAS & EDTECH (${saasCount})` },
+  ]
+
   return (
     <div className="py-8 sm:py-14 bg-[#FAF8F5] text-[#111111] select-none">
       <div className="max-w-[1450px] mx-auto px-4 sm:px-8">
@@ -279,12 +304,7 @@ export default function WebDevelopmentPage({ addToCart }) {
 
             {/* Category Filter Pills */}
             <div className="flex items-center justify-center gap-2 flex-wrap mt-6">
-              {[
-                { id: 'all', label: 'ALL PLATFORMS (7)' },
-                { id: 'b2b', label: 'COMMERCIAL B2B (2)' },
-                { id: 'd2c', label: 'LUXURY & D2C (2)' },
-                { id: 'saas', label: 'SAAS & EDTECH (3)' },
-              ].map(tab => (
+              {platformTabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveFilter(tab.id)}
