@@ -3,16 +3,16 @@ import { ArrowUpRight, Sparkles, ArrowRight } from 'lucide-react'
 
 const CLIENT_CASES = [
   {
-    id: "pohawala",
-    client: "Pohawala Nagpur",
-    badge: "F&B VIRAL COMMERCE",
-    category: "Commercial Film & Meta Ads",
-    metricValue: "4.8x",
-    metricLabel: "VERIFIED META ROAS",
-    highlight: "1.4M+ Organic Views • ₹14.8L Direct Revenue",
-    description: "High-retention cinema commercial sprint paired with targeted local Meta ad funnels that scaled footfall and franchise inquiries across Central India.",
-    image: "/assets/curated/reel_food.jpg",
-    waText: "Hi Welurik Team, I reviewed the Pohawala case study and want to discuss scaling my F&B brand."
+    id: "call-astro",
+    client: "Call Astro",
+    badge: "ASTROTECH & APP GROWTH",
+    category: "Performance Funnels & App Scaling",
+    metricValue: "2,400+",
+    metricLabel: "VERIFIED EXPERTS ONBOARDED",
+    highlight: "5,000+ App Installs • <15s WhatsApp Lead Routing",
+    description: "Turnkey digital acquisition machine: high-converting Meta & Google ad funnels, instant WhatsApp consultation routing, and scalable Play Store onboarding.",
+    image: "/assets/curated/call_astro_case.jpg",
+    waText: "Hi Welurik Team, I reviewed the Call Astro case study and want to discuss scaling my app / consultation brand."
   },
   {
     id: "celibar",
