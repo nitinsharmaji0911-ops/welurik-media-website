@@ -1,165 +1,153 @@
-import React, { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { WELURIK_DATA } from '../data/welurikMediaData'
+import React from 'react'
+import { ArrowUpRight, Sparkles, ArrowRight } from 'lucide-react'
+
+const CLIENT_CASES = [
+  {
+    id: "pohawala",
+    client: "Pohawala Nagpur",
+    badge: "F&B VIRAL COMMERCE",
+    category: "Commercial Film & Meta Ads",
+    metricValue: "4.8x",
+    metricLabel: "VERIFIED META ROAS",
+    highlight: "1.4M+ Organic Views • ₹14.8L Direct Revenue",
+    description: "High-retention cinema commercial sprint paired with targeted local Meta ad funnels that scaled footfall and franchise inquiries across Central India.",
+    image: "/assets/curated/reel_food.jpg",
+    waText: "Hi Welurik Team, I reviewed the Pohawala case study and want to discuss scaling my F&B brand."
+  },
+  {
+    id: "celibar",
+    client: "Celibar Lifestyle",
+    badge: "HAUTE D2C FASHION",
+    category: "E-Commerce & Performance Media",
+    metricValue: "₹24.8L",
+    metricLabel: "REVENUE GENERATED",
+    highlight: "680K Video Reach • <0.8s Global Storefront",
+    description: "End-to-end launch sprint: cinema-grade product campaign reels, high-velocity Meta acquisition campaigns, and sub-second Next.js storefront architecture.",
+    image: "/assets/curated/fashion_d2c.jpg",
+    waText: "Hi Welurik Team, I reviewed the Celibar case study and want to discuss scaling my D2C fashion brand."
+  },
+  {
+    id: "sm-engineering",
+    client: "SM Solar EPC CleanTech",
+    badge: "CLEANTECH B2B",
+    category: "Commercial EPC & Enterprise Web",
+    metricValue: "₹1.8Cr+",
+    metricLabel: "QUALIFIED B2B PIPELINE",
+    highlight: "42 Industrial Contracts • Interactive ROI Calculator",
+    description: "Turnkey digital ecosystem engineered for multi-crore industrial solar contracts with net metering savings workflows and automated enterprise lead routing.",
+    image: "/assets/curated/solar_epc.jpg",
+    waText: "Hi Welurik Team, I reviewed the SM Solar case study and want to discuss enterprise B2B client acquisition."
+  }
+]
 
 export default function EverydayEdit() {
-  const clients = WELURIK_DATA.featuredWork || []
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [touchStart, setTouchStart] = useState(null)
-  const [touchDelta, setTouchDelta] = useState(0)
-
-  const next = () => {
-    setActiveIndex((prev) => (prev + 1) % clients.length)
-  }
-
-  const prev = () => {
-    setActiveIndex((prev) => (prev - 1 + clients.length) % clients.length)
-  }
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') prev()
-      if (e.key === 'ArrowRight') next()
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [clients.length])
-
-  // Touch Swipe Handlers for Mobile
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX)
-    setTouchDelta(0)
-  }
-
-  const handleTouchMove = (e) => {
-    if (touchStart !== null) {
-      setTouchDelta(e.targetTouches[0].clientX - touchStart)
-    }
-  }
-
-  const handleTouchEnd = () => {
-    if (touchDelta > 45) {
-      prev()
-    } else if (touchDelta < -45) {
-      next()
-    }
-    setTouchStart(null)
-    setTouchDelta(0)
-  }
-
-  // Compute slide position for 3-card peek carousel (Exact match to reference image)
-  const getSlideStyle = (index) => {
-    const total = clients.length
-    let offset = (index - activeIndex + total) % total
-    if (offset > total / 2) offset -= total
-
-    if (Math.abs(offset) > 1) {
-      return {
-        display: 'none',
-        opacity: 0,
-        pointerEvents: 'none'
-      }
-    }
-
-    // Offset -1: Left peek card
-    // Offset 0: Center active card
-    // Offset 1: Right peek card
-    const isCenter = offset === 0
-    const translateX = offset * 106 // percentage offset
-    const scale = isCenter ? 1 : 0.92
-    const opacity = isCenter ? 1 : 0.65
-    const zIndex = isCenter ? 20 : 10
-
-    return {
-      transform: `translateX(calc(-50% + ${translateX}%)) scale(${scale})`,
-      opacity,
-      zIndex,
-      transition: 'transform 420ms cubic-bezier(0.25, 1, 0.5, 1), opacity 350ms ease'
-    }
+  const handleCardClick = (waText) => {
+    const url = `https://wa.me/918421706305?text=${encodeURIComponent(waText)}`
+    window.open(url, '_blank')
   }
 
   return (
-    <section id="featured-work" className="scroll-mt-20 pt-8 sm:pt-14 pb-14 sm:pb-20 bg-white overflow-hidden select-none">
+    <section id="featured-work" className="scroll-mt-20 py-12 sm:py-16 bg-[#FAF8F5] select-none border-t border-zinc-200/70">
       <div className="max-w-[1450px] mx-auto px-4 sm:px-8">
-
-        {/* Section Heading (Exact Haya Typography) */}
-        <h2 className="font-bold tracking-[0.25em] text-base sm:text-lg md:text-xl text-black uppercase text-center mb-6 sm:mb-8">
-          OUR CLIENTS
-        </h2>
-
-        {/* Carousel Stage */}
-        <div 
-          className="relative w-full max-w-[900px] mx-auto h-[450px] sm:h-[530px] md:h-[560px] flex items-center justify-center"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Side Desktop Chevron - Left */}
-          <button
-            onClick={prev}
-            aria-label="Previous client"
-            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/90 shadow-md border border-zinc-200 items-center justify-center text-zinc-700 hover:text-black hover:scale-110 active:scale-95 transition-all"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          {/* Side Desktop Chevron - Right */}
-          <button
-            onClick={next}
-            aria-label="Next client"
-            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/90 shadow-md border border-zinc-200 items-center justify-center text-zinc-700 hover:text-black hover:scale-110 active:scale-95 transition-all"
-          >
-            <ChevronRight size={20} />
-          </button>
-
-          {/* Cards Track */}
-          <div className="relative w-full h-full flex items-center justify-center">
-            {clients.map((client, idx) => {
-              const total = clients.length
-              let offset = (idx - activeIndex + total) % total
-              if (offset > total / 2) offset -= total
-              const isCenter = offset === 0
-
-              return (
-                <div
-                  key={client.id}
-                  style={getSlideStyle(idx)}
-                  onClick={() => {
-                    if (offset === -1) prev()
-                    else if (offset === 1) next()
-                    else {
-                      window.open(`https://wa.me/918421706305?text=Hi%20Welurik%20Team!%20I'm%20interested%20in%20your%20growth%20systems%20for%20${encodeURIComponent(client.title)}.`, '_blank')
-                    }
-                  }}
-                  className="absolute left-1/2 top-0 w-[64vw] max-w-[250px] sm:max-w-[290px] md:max-w-[310px] flex flex-col items-center cursor-pointer select-none"
-                >
-                  {/* Clean 9:16 Card Image (Exact 9:16 vertical ratio) */}
-                  <div className="w-full aspect-[9/16] rounded-[18px] sm:rounded-2xl overflow-hidden bg-zinc-100 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-zinc-200/50 group">
-                    <img
-                      src={client.img1}
-                      alt={client.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-              )
-            })}
+        
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-zinc-200 text-zinc-600 text-[11px] font-mono font-bold tracking-widest uppercase mb-3 shadow-xs">
+            <Sparkles size={12} className="text-zinc-500" />
+            <span>VERIFIED OUTCOMES</span>
           </div>
+
+          <h2 className="font-bold tracking-[0.25em] text-base sm:text-lg md:text-xl text-black uppercase text-center mb-2">
+            OUR CLIENTS &amp; CASE STUDIES
+          </h2>
+
+          <p className="text-xs sm:text-sm text-zinc-500 max-w-lg mx-auto text-center leading-relaxed">
+            Data-backed growth sprints engineered for measurable revenue scale and market authority.
+          </p>
         </div>
 
-        {/* Centered VIEW ALL Button (Exact match to reference image) */}
-        <div className="text-center mt-6 sm:mt-8">
-          <a
-            href="https://wa.me/918421706305?text=Hi%20Welurik%20Team!%20I'd%20like%20to%20view%20all%20client%20case%20studies."
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center px-8 sm:px-10 py-2.5 rounded-full bg-black text-white text-xs font-bold tracking-widest uppercase hover:bg-zinc-800 active:scale-95 transition-all shadow-md"
-          >
-            VIEW ALL
-          </a>
+        {/* 3 Minimal Editorial Case Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          {CLIENT_CASES.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleCardClick(item.waText)}
+              className="bg-white rounded-2xl border border-zinc-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_35px_rgba(0,0,0,0.08)] hover:border-black transition-all duration-300 flex flex-col justify-between overflow-hidden group cursor-pointer"
+            >
+              {/* Crisp Cinema Visual */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100">
+                <img
+                  src={item.image}
+                  alt={item.client}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+
+                {/* Badge Overlay */}
+                <div className="absolute top-3 left-3 bg-black/85 backdrop-blur-sm text-white px-2.5 py-1 rounded text-[10px] font-mono font-bold tracking-wider uppercase shadow-xs">
+                  {item.badge}
+                </div>
+
+                {/* Arrow Action on Hover */}
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md">
+                  <ArrowUpRight size={15} />
+                </div>
+              </div>
+
+              {/* Card Meta Body */}
+              <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
+                <div>
+                  <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider mb-1 font-medium">
+                    {item.category}
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl font-bold text-black tracking-tight mb-3 group-hover:text-zinc-700 transition-colors">
+                    {item.client}
+                  </h3>
+
+                  {/* Highlight Metric */}
+                  <div className="bg-[#FAF8F5] border border-zinc-200/70 rounded-xl p-3.5 mb-3.5">
+                    <div className="text-2xl sm:text-3xl font-black text-black tracking-tight leading-none mb-1">
+                      {item.metricValue}
+                    </div>
+                    <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-500">
+                      {item.metricLabel}
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-zinc-600 font-medium mb-2">
+                    {item.highlight}
+                  </p>
+
+                  <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-2">
+                    {item.description}
+                  </p>
+                </div>
+
+                {/* Card Action Row */}
+                <div className="pt-4 mt-4 border-t border-zinc-100 flex items-center justify-between text-[11px] font-bold tracking-wider uppercase text-black group-hover:text-zinc-600 transition-colors">
+                  <span>DISCUSS SIMILAR SPRINT</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Minimalist 3-Proof Metric Strip */}
+        <div className="mt-8 sm:mt-12 py-5 px-6 rounded-2xl bg-white border border-zinc-200/90 shadow-xs grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-zinc-200 gap-4 sm:gap-0 text-center">
+          <div className="sm:px-4">
+            <span className="block text-2xl sm:text-3xl font-black text-black tracking-tight">4.8x</span>
+            <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 uppercase tracking-wider font-semibold">Average Verified ROAS</span>
+          </div>
+          <div className="pt-3 sm:pt-0 sm:px-4">
+            <span className="block text-2xl sm:text-3xl font-black text-black tracking-tight">₹4.2Cr+</span>
+            <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 uppercase tracking-wider font-semibold">Client Pipeline Scaled</span>
+          </div>
+          <div className="pt-3 sm:pt-0 sm:px-4">
+            <span className="block text-2xl sm:text-3xl font-black text-black tracking-tight">100%</span>
+            <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 uppercase tracking-wider font-semibold">Client IP &amp; Code Ownership</span>
+          </div>
         </div>
 
       </div>
