@@ -265,7 +265,8 @@ function ReviewCard({ review }) {
 
 export default function ShopByType() {
   return (
-    <section id="industries" className="py-12 sm:py-20 bg-[#FAF8F5] text-black border-t border-zinc-200/60 select-none overflow-hidden relative">
+    <section id="industries" data-anchor="featured-work" className="py-12 sm:py-20 bg-[#FAF8F5] text-black border-t border-zinc-200/60 select-none overflow-hidden relative">
+      <div id="featured-work" className="scroll-mt-20"></div>
       <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

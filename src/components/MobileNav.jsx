@@ -118,12 +118,12 @@ export default function MobileNav({
                 </button>
 
                 <button
-                  onClick={() => handleNavClick('#featured-work')}
+                  onClick={() => handleNavClick('#industries')}
                   className="w-full flex items-center justify-between p-3 rounded-xl bg-zinc-50 hover:bg-zinc-100 text-left font-bold text-xs uppercase tracking-wider text-zinc-900 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Sparkles size={15} className="text-[#00D2B8]" />
-                    <span>Featured Client Work</span>
+                    <span>Our Clients & Reviews</span>
                   </div>
                   <ArrowRight size={14} className="text-zinc-400" />
                 </button>

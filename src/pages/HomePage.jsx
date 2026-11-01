@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import HeroSlider from '../components/HeroSlider'
 import TopCollections from '../components/TopCollections'
 import PromoBanner from '../components/PromoBanner'
-import EverydayEdit from '../components/EverydayEdit'
 import FullCoverageEdit from '../components/FullCoverageEdit'
 import ShopByType from '../components/ShopByType'
 import GirliesMustHaves from '../components/GirliesMustHaves'
@@ -50,7 +49,7 @@ _Sent from Welurik Media Website_`
     <>
       {/* 1. Hero Editorial Slider & Mobile Vertical Video */}
       <HeroSlider
-        onExplore={() => scrollTo('featured-work')}
+        onExplore={() => scrollTo('industries')}
       />
 
       {/* 2. Core Disciplines / Services */}
@@ -61,7 +60,7 @@ _Sent from Welurik Media Website_`
           } else if (colId === 'paid-ads') {
             scrollTo('turnkey-systems')
           } else {
-            scrollTo('featured-work')
+            scrollTo('industries')
           }
         }}
       />
@@ -74,14 +73,6 @@ _Sent from Welurik Media Website_`
         }}
       />
 
-      {/* 4. Featured Client Work (Carousel) */}
-      <EverydayEdit
-        onAddToCart={addToCart}
-        onToggleWishlist={toggleWishlist}
-        wishlistIds={wishlistIds}
-        onQuickView={setQuickViewProduct}
-      />
-
       {/* 5. Commercial Showreels (Video Carousel) */}
       <FullCoverageEdit
         onPlayVideo={setActiveReel}
@@ -89,7 +80,7 @@ _Sent from Welurik Media Website_`
 
       {/* 6. Client Testimonials & Verified Outcome Marquee */}
       <ShopByType
-        onSelectType={() => scrollTo('featured-work')}
+        onSelectType={() => scrollTo('industries')}
       />
 
       {/* 7. Engineered Web Development Platforms Portfolio */}
