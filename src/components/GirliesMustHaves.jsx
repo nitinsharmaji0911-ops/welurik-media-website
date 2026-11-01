@@ -109,30 +109,12 @@ const PORTFOLIO_SITES = [
 ]
 
 export default function GirliesMustHaves() {
-  const [filter, setFilter] = useState('all')
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [touchStart, setTouchStart] = useState(null)
   const [touchDelta, setTouchDelta] = useState(0)
 
-  const b2bCount = PORTFOLIO_SITES.filter(s => s.badge.includes('B2B') || s.badge.includes('HEALTHCARE')).length
-  const d2cCount = PORTFOLIO_SITES.filter(s => s.badge.includes('D2C') || s.badge.includes('FINE ART') || s.badge.includes('LUXURY')).length
-  const saasCount = PORTFOLIO_SITES.filter(s => s.badge.includes('SAAS') || s.badge.includes('EDTECH') || s.badge.includes('ACADEMIC')).length
-
-  const filterOptions = [
-    { id: 'all', label: `ALL PLATFORMS (${PORTFOLIO_SITES.length})` },
-    { id: 'b2b', label: `COMMERCIAL B2B (${b2bCount})` },
-    { id: 'd2c', label: `LUXURY & D2C (${d2cCount})` },
-    { id: 'saas', label: `SAAS & EDTECH (${saasCount})` }
-  ]
-
-  const filteredSites = PORTFOLIO_SITES.filter(site => {
-    if (filter === 'all') return true
-    if (filter === 'b2b') return site.badge.includes('B2B') || site.badge.includes('HEALTHCARE')
-    if (filter === 'd2c') return site.badge.includes('D2C') || site.badge.includes('FINE ART') || site.badge.includes('LUXURY')
-    if (filter === 'saas') return site.badge.includes('SAAS') || site.badge.includes('EDTECH') || site.badge.includes('ACADEMIC')
-    return true
-  })
+  const filteredSites = PORTFOLIO_SITES
 
   const next = () => {
     setActiveIndex((prev) => (prev + 1) % filteredSites.length)
@@ -141,11 +123,6 @@ export default function GirliesMustHaves() {
   const prev = () => {
     setActiveIndex((prev) => (prev - 1 + filteredSites.length) % filteredSites.length)
   }
-
-  // Reset index when filter changes
-  useEffect(() => {
-    setActiveIndex(0)
-  }, [filter])
 
   // Keyboard navigation
   useEffect(() => {
@@ -235,26 +212,11 @@ export default function GirliesMustHaves() {
             WEB DEVELOPMENT PORTFOLIO
           </h2>
 
-          <p className="text-xs sm:text-sm text-zinc-500 max-w-xl text-center leading-relaxed mb-6">
+          <p className="text-xs sm:text-sm text-zinc-500 max-w-xl text-center leading-relaxed">
             Bespoke web applications, high-converting Shopify storefronts, and conversion-engineered digital platforms.
           </p>
 
-          {/* Minimalist Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {filterOptions.map((opt) => (
-              <button
-                key={opt.id}
-                onClick={() => setFilter(opt.id)}
-                className={`px-3.5 py-1.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase transition-all duration-300 ${
-                  filter === opt.id
-                    ? 'bg-black text-white shadow-sm'
-                    : 'bg-white text-zinc-600 border border-zinc-200 hover:border-black hover:text-black'
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+
         </div>
 
         {/* Carousel Stage (Exact Aesthetic Match to EverydayEdit & FullCoverageEdit) */}
